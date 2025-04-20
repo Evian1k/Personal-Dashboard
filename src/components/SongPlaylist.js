@@ -5,13 +5,15 @@ const SongPlaylist = () => {
   const [songName, setSongName] = useState('');
   const [songArtist, setSongArtist] = useState('');
 
+  // Save songs to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('songs', JSON.stringify(songs));
   }, [songs]);
 
   const addSong = () => {
     if (songName && songArtist) {
-      setSongs([...songs, { name: songName, artist: songArtist }]);
+      const newSong = { name: songName, artist: songArtist };
+      setSongs([...songs, newSong]);
       setSongName('');
       setSongArtist('');
     }

@@ -1,18 +1,21 @@
-// src/App.js
+
+// App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Use Routes instead of Switch
+import Navbar from './components/Navbar';
 import MoodTrackerPage from './pages/MoodTrackerPage';
 import SongPlaylistPage from './pages/SongPlaylistPage';
 import WouldYouRatherPage from './pages/WouldYouRatherPage';
 import DailyQuotePage from './pages/DailyQuotePage';
 import PasswordVaultPage from './pages/PasswordVaultPage';
-import Navbar from './components/Navbar';
+import './styles/App.css';
 
-const App = () => {
+function App() {
   return (
     <Router>
       <Navbar />
       <div className="container">
+        {/* Use Routes instead of Switch */}
         <Routes>
           <Route path="/mood-tracker" element={<MoodTrackerPage />} />
           <Route path="/song-playlist" element={<SongPlaylistPage />} />
@@ -23,6 +26,6 @@ const App = () => {
       </div>
     </Router>
   );
-};
+}
 
 export default App;
