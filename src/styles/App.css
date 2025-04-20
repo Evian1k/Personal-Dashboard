@@ -1,396 +1,485 @@
-/* Global Styles */
-body {
-  font-family: 'Arial', sans-serif;
+/* ======= Global Reset ======= */
+* {
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
-  color: #333;
+  box-sizing: border-box;
 }
 
-h1, h2, h3, p {
-  margin: 0;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #34495e;
-  padding: 15px 20px;
-  color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.navbar h1 {
-  font-size: 24px;
-}
-
-.navbar ul {
-  display: flex;
-  gap: 15px;
-}
-
-.navbar ul li a {
-  color: #fff;
-  font-size: 18px;
-  text-transform: uppercase;
-}
-
-.navbar ul li a:hover {
-  color: #f39c12;
-}
-
-/* General Page Layout */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.page-title {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #2c3e50;
-}
-
-.page-content {
-  font-size: 18px;
-  color: #7f8c8d;
+body {
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background-color: #f1f3f4;
+  color: #202124;
   line-height: 1.6;
-}
-
-.page-content p {
-  margin-bottom: 10px;
-}
-
-/* Card for components like Mood Tracker, Song Playlist, etc. */
-.card {
-  background-color: #ecf0f1;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-.card h3 {
-  font-size: 24px;
-  color: #34495e;
-}
-
-.card p {
-  font-size: 18px;
-  color: #7f8c8d;
-}
-
-/* Input Fields */
-input[type="text"] {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-input[type="text"]:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-/* Song Playlist */
-.song-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.song-list li {
-  background-color: #f4f6f7;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.song-list li button {
-  background-color: #e74c3c;
-  padding: 6px 12px;
-  font-size: 14px;
-  border-radius: 5px;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-.song-list li button:hover {
-  background-color: #c0392b;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .navbar ul {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .container {
-    margin: 10px;
-    padding: 10px;
-  }
-
-  .page-title {
-    font-size: 24px;
-  }
-
-  .card {
-    padding: 15px;
-  }
-
-  .song-list li {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-/* General Body */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f7fa;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Container for all the components */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-/* Navbar styles */
-.navbar {
-  background-color: #2d3436;
-  color: #fff;
-  padding: 15px 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-.navbar h1 {
-  font-size: 24px;
-  margin: 0;
-}
-
-.navbar ul {
-  list-style-type: none;
-  padding: 0;
+/* ======= Layout Container ======= */
+.app-container {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 80px;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
-.navbar ul li {
-  display: inline;
+/* ======= Navbar ======= */
+.navbar {
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid #dadce0;
+  padding: 20px 80px;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(60, 64, 67, 0.1);
 }
 
-.navbar ul li a {
-  color: #fff;
+.navbar a {
   text-decoration: none;
-  font-size: 16px;
-  transition: color 0.3s ease;
-}
-
-.navbar ul li a:hover {
-  color: #f39c12;
-}
-
-/* Page Styles */
-.page {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.page h2 {
-  font-size: 28px;
-  margin-bottom: 15px;
-  color: #2d3436;
-}
-
-.page p {
+  color: #202124;
   font-size: 18px;
-  line-height: 1.6;
-  color: #636e72;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background-color: transparent;
 }
 
-/* Buttons for adding/removing items */
-button {
-  background-color: #3498db;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
+.navbar a:hover,
+.navbar a.active {
+  background-color: #e8f0fe;
+  color: #174ea6;
+  box-shadow: inset 0 0 0 2px #c3d6fc;
+}
+
+/* ======= Section Styling ======= */
+.section {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 50px;
+  margin: 40px 0;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(60, 64, 67, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.section:hover {
+  box-shadow: 0 8px 30px rgba(60, 64, 67, 0.15);
+}
+
+/* ======= Headings ======= */
+.section h2 {
+  font-size: 30px;
+  margin-bottom: 24px;
+  color: #202124;
+  font-weight: 700;
+}
+
+/* ======= Mood Tracker ======= */
+.mood-tracker .emoji-options {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.emoji-options button {
+  font-size: 36px;
+  background: #ffffff;
+  border: 2px solid #dadce0;
+  border-radius: 50%;
+  padding: 18px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-button:hover {
-  background-color: #2980b9;
+.emoji-options button:hover {
+  background-color: #e0e7ef;
+  transform: scale(1.2);
 }
 
-button:focus {
-  outline: none;
+.mood-note {
+  width: 100%;
+  height: 120px;
+  margin: 24px 0;
+  padding: 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  resize: none;
+  background-color: #fdfdfd;
 }
 
-/* Inputs (for adding song names, etc.) */
-input[type="text"] {
+.mood-save-btn {
+  background-color: #1a73e8;
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+  box-shadow: 0 2px 10px rgba(26, 115, 232, 0.2);
+}
+
+.mood-save-btn:hover {
+  background-color: #0f5fc2;
+}
+
+/* ======= Song Playlist ======= */
+.song-playlist input {
   width: 100%;
   padding: 12px;
   font-size: 16px;
-  border: 1px solid #dfe6e9;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
   border-radius: 8px;
+}
+
+.song-playlist button {
+  background-color: #34a853;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.song-playlist button:hover {
+  background-color: #0c8f42;
+}
+
+.song-playlist ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.song-playlist li {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 10px;
+  background: #f8f9fa;
+  padding: 10px 14px;
+  border-radius: 6px;
+}
+
+/* ======= Daily Quote ======= */
+.daily-quote p {
+  font-style: italic;
+  font-size: 20px;
+  color: #444;
+  text-align: center;
+  padding: 20px 10px;
+  background-color: #fffbe6;
+  border-left: 4px solid #f4b400;
+  border-radius: 8px;
+}
+
+/* ======= Would You Rather ======= */
+.would-you-rather .options {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.would-you-rather button {
+  flex: 1;
+  padding: 16px 20px;
+  background-color: #f8f9fa;
+  border: 2px solid #dadce0;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-weight: 600;
+}
+
+.would-you-rather button:hover {
+  background-color: #e2e6ea;
+}
+
+/* ======= Password Vault ======= */
+.password-vault input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.password-vault button {
+  background-color: #1a73e8;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.password-vault button:hover {
+  background-color: #0f5fc2;
+}
+
+/* ======= Media Query: Desktop only ======= */
+@media (max-width: 1024px) {
+  .app-container {
+    padding: 30px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 30px;
+  }
+
+  .navbar a {
+    padding: 10px 12px;
+  }
+
+  .would-you-rather .options {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+/* ======= Global Reset ======= */
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-input[type="text"]:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
-  outline: none;
+body {
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background-color: #f1f3f4;
+  color: #202124;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Song Playlist Styles */
-.song-list {
-  list-style-type: none;
-  padding: 0;
+/* ======= Layout Container ======= */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 80px;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
-.song-list li {
-  background-color: #ecf0f1;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+/* ======= Navbar ======= */
+.navbar {
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid #dadce0;
+  padding: 16px 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.song-list li button {
-  background-color: #e74c3c;
-  padding: 8px 15px;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.song-list li button:hover {
-  background-color: #c0392b;
-}
-
-/* Navbar links hover effects */
-.navbar ul li a:hover {
-  color: #f39c12;
-  text-decoration: underline;
-}
-
-/* Modal for confirmation or additional actions (if you use modals in future) */
-.modal {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.navbar ul {
+  list-style: none;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease;
+  gap: 40px;
 }
 
-.modal.active {
-  opacity: 1;
-  visibility: visible;
+.navbar a {
+  text-decoration: none;
+  color: #1a73e8;
+  font-size: 18px;
+  font-weight: 500;
+  transition: 0.3s ease;
 }
 
-.modal-content {
-  background-color: white;
-  padding: 30px;
+.navbar a:hover {
+  color: #174ea6;
+}
+
+/* ======= Section Styling ======= */
+.section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 40px 50px;
+  margin: 40px 0;
+  width: 100%;
+  box-shadow: 0 2px 12px rgba(60, 64, 67, 0.1);
+}
+
+/* ======= Headings ======= */
+.section h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #202124;
+}
+
+/* ======= Mood Tracker ======= */
+.mood-tracker .emoji-options {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.emoji-options button {
+  font-size: 32px;
+  background: #e8f0fe;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.emoji-options button:hover {
+  background-color: #d2e3fc;
+  transform: scale(1.1);
+}
+
+.mood-note {
+  width: 100%;
+  height: 100px;
+  margin: 20px 0;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #dadce0;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  resize: none;
+}
+
+.mood-save-btn {
+  background-color: #1a73e8;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.mood-save-btn:hover {
+  background-color: #1967d2;
+}
+
+/* ======= Song Playlist ======= */
+.song-playlist input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+}
+
+.song-playlist button {
+  background-color: #34a853;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.song-playlist button:hover {
+  background-color: #0c8f42;
+}
+
+.song-playlist ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.song-playlist li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* ======= Daily Quote ======= */
+.daily-quote p {
+  font-style: italic;
+  font-size: 20px;
+  color: #555;
   text-align: center;
 }
 
-/* Card Components for each section (like Mood Tracker, Song Playlist, etc.) */
-.card {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+/* ======= Would You Rather ======= */
+.would-you-rather .options {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
 }
 
-.card h3 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: #2d3436;
+.would-you-rather button {
+  flex: 1;
+  padding: 16px 20px;
+  background-color: #f8f9fa;
+  border: 2px solid #dadce0;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
-.card p {
-  font-size: 18px;
-  color: #636e72;
+.would-you-rather button:hover {
+  background-color: #e8eaed;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* ======= Password Vault ======= */
+.password-vault input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #dadce0;
+  border-radius: 6px;
+}
+
+.password-vault button {
+  background-color: #1a73e8;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.password-vault button:hover {
+  background-color: #1967d2;
+}
+
+/* ======= Media Query: Desktop only ======= */
+@media (max-width: 1024px) {
+  .app-container {
+    padding: 30px;
+  }
+
   .navbar ul {
     flex-direction: column;
-    align-items: center;
+    gap: 16px;
   }
 
-  .navbar ul li {
-    margin: 10px 0;
-  }
-
-  .container {
-    padding: 10px;
+  .would-you-rather .options {
+    flex-direction: column;
+    gap: 20px;
   }
 }
 

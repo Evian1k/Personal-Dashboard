@@ -1,49 +1,61 @@
 import React, { useState, useEffect } from 'react';
 
 const SongPlaylist = () => {
-  const [songs, setSongs] = useState(JSON.parse(localStorage.getItem('songs')) || []);
-  const [songName, setSongName] = useState('');
-  const [songArtist, setSongArtist] = useState('');
+  const [songInput, setSongInput] = useState('');
+  const [playlist, setPlaylist] = useState([]);
 
-  // Save songs to localStorage whenever it changes
+  // Load from localStorage on mount
   useEffect(() => {
-    localStorage.setItem('songs', JSON.stringify(songs));
-  }, [songs]);
+    const savedPlaylist = JSON.parse(localStorage.getItem('playlist')) || [];
+    setPlaylist(savedPlaylist);
+  }, []);
 
-  const addSong = () => {
-    if (songName && songArtist) {
-      const newSong = { name: songName, artist: songArtist };
-      setSongs([...songs, newSong]);
-      setSongName('');
-      setSongArtist('');
-    }
+  // Save to localStorage on playlist update
+  useEffect(() => {
+    localStorage.setItem('playlist', JSON.stringify(playlist));
+  }, [playlist]);
+
+  const handleAddSong = () => {
+    if (songInput.trim() === '') return;
+
+    setPlaylist(prev => [...prev, songInput.trim()]);
+    setSongInput('');
   };
 
-  const removeSong = (index) => {
-    setSongs(songs.filter((_, i) => i !== index));
+  const handleRemoveSong = (index) => {
+    const updated = playlist.filter((_, i) => i !== index);
+    setPlaylist(updated);
   };
 
   return (
-    <div>
+    <div className="section song-playlist">
       <h2>Song Playlist</h2>
+
       <input
         type="text"
-        placeholder="Song Name"
-        value={songName}
-        onChange={(e) => setSongName(e.target.value)}
+        placeholder="Enter song title or link"
+        value={songInput}
+        onChange={(e) => setSongInput(e.target.value)}
       />
-      <input
-        type="text"
-        placeholder="Artist Name"
-        value={songArtist}
-        onChange={(e) => setSongArtist(e.target.value)}
-      />
-      <button onClick={addSong}>Add Song</button>
+
+      <button onClick={handleAddSong}>Add Song</button>
+
       <ul>
-        {songs.map((song, i) => (
-          <li key={i}>
-            {song.name} by {song.artist}
-            <button onClick={() => removeSong(i)}>Remove</button>
+        {playlist.map((song, index) => (
+          <li key={index}>
+            <span>{song}</span>
+            <button
+              onClick={() => handleRemoveSong(index)}
+              style={{
+                background: 'transparent',
+                color: '#c00',
+                fontWeight: 'bold',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              ✕
+            </button>
           </li>
         ))}
       </ul>
@@ -52,3 +64,4 @@ const SongPlaylist = () => {
 };
 
 export default SongPlaylist;
+

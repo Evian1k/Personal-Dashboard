@@ -1,32 +1,61 @@
-import React, { useState, useEffect } from 'react';
+// src/components/WouldYouRather.js
+
+import React, { useState } from 'react';
 
 const WouldYouRather = () => {
-  const [question, setQuestion] = useState(null);
+  const questions = [
+    {
+      question: 'Would you rather be able to fly or be invisible?',
+      optionA: 'Fly',
+      optionB: 'Invisible',
+    },
+    {
+      question: 'Would you rather have unlimited money or unlimited time?',
+      optionA: 'Unlimited Money',
+      optionB: 'Unlimited Time',
+    },
+    {
+      question: 'Would you rather live on the moon or under the sea?',
+      optionA: 'Moon',
+      optionB: 'Under the Sea',
+    },
+  ];
 
-  useEffect(() => {
-    // Use fetch instead of axios to fetch the question
-    fetch('http://localhost:5000/api/would-you-rather')
-      .then(response => response.json())
-      .then(data => {
-        setQuestion(data);
-      })
-      .catch(error => {
-        console.error('Error fetching question:', error);
-      });
-  }, []);
+  const [index, setIndex] = useState(0);
+  const [selected, setSelected] = useState(null);
+
+  const handleOptionClick = (option) => {
+    setSelected(option);
+    setTimeout(() => {
+      setSelected(null);
+      setIndex((prevIndex) => (prevIndex + 1) % questions.length);
+    }, 1000);
+  };
+
+  const current = questions[index];
 
   return (
-    <div>
+    <div className="section would-you-rather">
       <h2>Would You Rather</h2>
-      {question ? (
-        <div>
-          <p>{question.text}</p>
-          <button>{question.option1}</button>
-          <button>{question.option2}</button>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+      <p>{current.question}</p>
+      <div className="options">
+        <button
+          onClick={() => handleOptionClick(current.optionA)}
+          style={{
+            backgroundColor: selected === current.optionA ? '#d1e7dd' : '',
+          }}
+        >
+          {current.optionA}
+        </button>
+        <button
+          onClick={() => handleOptionClick(current.optionB)}
+          style={{
+            backgroundColor: selected === current.optionB ? '#f8d7da' : '',
+          }}
+        >
+          {current.optionB}
+        </button>
+      </div>
     </div>
   );
 };
