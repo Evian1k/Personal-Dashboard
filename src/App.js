@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MoodTrackerPage from './pages/MoodTrackerPage';
+import SongPlaylistPage from './pages/SongPlaylistPage';
+import WouldYouRatherPage from './pages/WouldYouRatherPage';
+import DailyQuotePage from './pages/DailyQuotePage';
+import PasswordVaultPage from './pages/PasswordVaultPage';
+import Navbar from './components/Navbar';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <div className="container">
+        <Routes>
+          <Route path="/mood-tracker" element={<MoodTrackerPage />} />
+          <Route path="/song-playlist" element={<SongPlaylistPage />} />
+          <Route path="/would-you-rather" element={<WouldYouRatherPage />} />
+          <Route path="/daily-quote" element={<DailyQuotePage />} />
+          <Route path="/password-vault" element={<PasswordVaultPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
