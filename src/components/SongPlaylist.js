@@ -1,64 +1,92 @@
 import React, { useState, useEffect } from 'react';
 
 const SongPlaylist = () => {
-  const [songInput, setSongInput] = useState('');
-  const [playlist, setPlaylist] = useState([]);
+  const [songs, setSongs] = useState(JSON.parse(localStorage.getItem('songs')) || []);
+  const [songName, setSongName] = useState('');
+  const [songArtist, setSongArtist] = useState('');
+  const [songUrl, setSongUrl] = useState('');
+  const [currentVideo, setCurrentVideo] = useState(null);
 
-  // Load from localStorage on mount
   useEffect(() => {
-    const savedPlaylist = JSON.parse(localStorage.getItem('playlist')) || [];
-    setPlaylist(savedPlaylist);
-  }, []);
+    localStorage.setItem('songs', JSON.stringify(songs));
+  }, [songs]);
 
-  // Save to localStorage on playlist update
-  useEffect(() => {
-    localStorage.setItem('playlist', JSON.stringify(playlist));
-  }, [playlist]);
-
-  const handleAddSong = () => {
-    if (songInput.trim() === '') return;
-
-    setPlaylist(prev => [...prev, songInput.trim()]);
-    setSongInput('');
+  const extractYouTubeId = (url) => {
+    const regex = /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
   };
 
-  const handleRemoveSong = (index) => {
-    const updated = playlist.filter((_, i) => i !== index);
-    setPlaylist(updated);
+  const addSong = () => {
+    if (songName && songArtist && songUrl) {
+      const newSong = {
+        name: songName,
+        artist: songArtist,
+        url: songUrl,
+      };
+      setSongs([...songs, newSong]);
+      setSongName('');
+      setSongArtist('');
+      setSongUrl('');
+    }
+  };
+
+  const removeSong = (index) => {
+    setSongs(songs.filter((_, i) => i !== index));
+    if (index === currentVideo) setCurrentVideo(null);
+  };
+
+  const playVideo = (index) => {
+    setCurrentVideo(index);
   };
 
   return (
-    <div className="section song-playlist">
+    <div className="song-playlist">
       <h2>Song Playlist</h2>
 
       <input
         type="text"
-        placeholder="Enter song title or link"
-        value={songInput}
-        onChange={(e) => setSongInput(e.target.value)}
+        placeholder="Song Name"
+        value={songName}
+        onChange={(e) => setSongName(e.target.value)}
       />
-
-      <button onClick={handleAddSong}>Add Song</button>
+      <input
+        type="text"
+        placeholder="Artist Name"
+        value={songArtist}
+        onChange={(e) => setSongArtist(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="YouTube URL"
+        value={songUrl}
+        onChange={(e) => setSongUrl(e.target.value)}
+      />
+      <button onClick={addSong}>Add Song</button>
 
       <ul>
-        {playlist.map((song, index) => (
-          <li key={index}>
-            <span>{song}</span>
-            <button
-              onClick={() => handleRemoveSong(index)}
-              style={{
-                background: 'transparent',
-                color: '#c00',
-                fontWeight: 'bold',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              ✕
-            </button>
+        {songs.map((song, i) => (
+          <li key={i}>
+            <span>{song.name} by {song.artist}</span>
+            <div>
+              <button onClick={() => playVideo(i)}>Play</button>
+              <button onClick={() => removeSong(i)}>Remove</button>
+            </div>
           </li>
         ))}
       </ul>
+
+      {currentVideo !== null && songs[currentVideo] && (
+        <div className="song-video">
+          <iframe
+            src={`https://www.youtube.com/embed/${extractYouTubeId(songs[currentVideo].url)}?autoplay=1`}
+            title="YouTube video"
+            frameBorder="0"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+          />
+        </div>
+      )}
     </div>
   );
 };

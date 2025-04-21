@@ -1,81 +1,95 @@
+
 import React, { useState, useEffect } from 'react';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer
-} from 'recharts';
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
 
-const moodLabels = {
-  "😄": "Happy",
-  "😐": "Neutral",
-  "😢": "Sad",
-  "😡": "Angry",
-  "😴": "Tired"
+const moods = {
+  happy: '😄',
+  neutral: '😐',
+  sad: '😢',
+  angry: '😡',
+  sleepy: '😴',
 };
 
-const moodScores = {
-  "😄": 5,
-  "😐": 3,
-  "😢": 2,
-  "😡": 1,
-  "😴": 2
-};
-
-const motivationalQuotes = {
-  "😄": "Keep spreading those good vibes! ✨",
-  "😐": "Every day won't be perfect — and that's okay.",
-  "😢": "It's okay to feel down. Better days are ahead 💙",
-  "😡": "Take a breath, let it go. You've got this 💪",
-  "😴": "Rest is productive too. Recharge and shine 🔋"
+const motivationalSpeeches = {
+  happy: "Keep spreading joy. The world needs your light!",
+  neutral: "Balance is beautiful. Stay steady and strong.",
+  sad: "It’s okay to feel down. Better days are coming 💛",
+  angry: "Breathe deep. Use that fire for something great.",
+  sleepy: "Rest is productive. Recharge your soul.",
 };
 
 const MoodTracker = () => {
   const [selectedMood, setSelectedMood] = useState(null);
   const [note, setNote] = useState('');
-  const [moodHistory, setMoodHistory] = useState([]);
+  const [history, setHistory] = useState([]);
 
-  // Load from localStorage
   useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem('moodHistory')) || [];
-    setMoodHistory(savedData);
+    const stored = JSON.parse(localStorage.getItem('moodHistory')) || [];
+    setHistory(stored);
   }, []);
-
-  // Save to localStorage
-  useEffect(() => {
-    localStorage.setItem('moodHistory', JSON.stringify(moodHistory));
-  }, [moodHistory]);
 
   const handleSave = () => {
     if (!selectedMood) return;
 
-    const entry = {
-      mood: selectedMood,
-      note,
+    const newEntry = {
       date: new Date().toLocaleDateString(),
-      score: moodScores[selectedMood]
+      mood: selectedMood,
+      note
     };
 
-    setMoodHistory(prev => [...prev, entry]);
-    setSelectedMood(null);
+    const updated = [...history.slice(-6), newEntry]; // Keep last 7 entries
+    localStorage.setItem('moodHistory', JSON.stringify(updated));
+    setHistory(updated);
     setNote('');
+    setSelectedMood(null);
+  };
+
+  const data = {
+    labels: history.map((entry) => entry.date),
+    datasets: [
+      {
+        label: 'Mood Trend',
+        data: history.map((entry) =>
+          Object.keys(moods).indexOf(entry.mood)
+        ),
+        borderColor: '#1a73e8',
+        backgroundColor: '#e3f2fd',
+        tension: 0.3,
+        fill: true,
+      },
+    ],
+  };
+
+  const options = {
+    scales: {
+      y: {
+        ticks: {
+          callback: function (val) {
+            return Object.keys(moods)[val] || '';
+          },
+          stepSize: 1,
+        },
+        min: 0,
+        max: Object.keys(moods).length - 1,
+      },
+    },
   };
 
   return (
     <div className="section mood-tracker">
       <h2>Mood Tracker</h2>
 
+      {/* Mood Selection */}
       <div className="emoji-options">
-        {Object.keys(moodLabels).map((emoji) => (
+        {Object.entries(moods).map(([key, emoji]) => (
           <button
-            key={emoji}
-            onClick={() => setSelectedMood(emoji)}
+            key={key}
+            onClick={() => setSelectedMood(key)}
             style={{
-              borderColor: selectedMood === emoji ? '#1a73e8' : '#dadce0',
-              transform: selectedMood === emoji ? 'scale(1.2)' : 'scale(1)'
+              border: selectedMood === key ? '3px solid #1a73e8' : '2px solid #ccc',
+              transform: selectedMood === key ? 'scale(1.1)' : 'scale(1)',
+              backgroundColor: selectedMood === key ? '#e8f0fe' : '#fff',
             }}
           >
             {emoji}
@@ -83,6 +97,7 @@ const MoodTracker = () => {
         ))}
       </div>
 
+      {/* Mood Note */}
       <textarea
         className="mood-note"
         placeholder="Optional note..."
@@ -90,36 +105,28 @@ const MoodTracker = () => {
         onChange={(e) => setNote(e.target.value)}
       />
 
+      {/* Save Mood Button */}
       <button className="mood-save-btn" onClick={handleSave}>
-        Save
+        Save Mood
       </button>
 
+      {/* Display Motivational Speech */}
       {selectedMood && (
-        <p style={{ marginTop: 20, fontStyle: 'italic', color: '#555' }}>
-          {motivationalQuotes[selectedMood]}
-        </p>
+        <div style={{ marginTop: '20px', fontStyle: 'italic', fontSize: '18px', color: '#555' }}>
+          {motivationalSpeeches[selectedMood]}
+        </div>
       )}
 
-      {moodHistory.length > 0 && (
-        <div style={{ marginTop: 50 }}>
-          <h3 style={{ marginBottom: 20 }}>Mood Over Time</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={moodHistory}>
-              <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="date" />
-              <YAxis domain={[0, 5]} />
-              <Tooltip />
-              <Line type="monotone" dataKey="score" stroke="#1a73e8" strokeWidth={2} dot={{ r: 6 }} />
-            </LineChart>
-          </ResponsiveContainer>
+      {/* Mood History */}
+      {history.length > 0 && (
+        <div style={{ marginTop: '40px' }}>
+          <h3 style={{ marginBottom: '16px' }}>Mood History</h3>
+          {/* Display Chart */}
+          <Line data={data} options={options} />
         </div>
-        
       )}
     </div>
   );
 };
 
 export default MoodTracker;
-
-
-

@@ -1,63 +1,39 @@
-// src/components/WouldYouRather.js
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const WouldYouRather = () => {
-  const questions = [
-    {
-      question: 'Would you rather be able to fly or be invisible?',
-      optionA: 'Fly',
-      optionB: 'Invisible',
-    },
-    {
-      question: 'Would you rather have unlimited money or unlimited time?',
-      optionA: 'Unlimited Money',
-      optionB: 'Unlimited Time',
-    },
-    {
-      question: 'Would you rather live on the moon or under the sea?',
-      optionA: 'Moon',
-      optionB: 'Under the Sea',
-    },
-  ];
+  const [question, setQuestion] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const [index, setIndex] = useState(0);
-  const [selected, setSelected] = useState(null);
-
-  const handleOptionClick = (option) => {
-    setSelected(option);
-    setTimeout(() => {
-      setSelected(null);
-      setIndex((prevIndex) => (prevIndex + 1) % questions.length);
-    }, 1000);
+  const fetchQuestion = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('https://would-you-rather-api.abaanshanid.repl.co');
+      const data = await response.json();
+      setQuestion(data.data);
+    } catch (error) {
+      console.error('Error fetching question:', error);
+      setQuestion('Failed to load question. Try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const current = questions[index];
+  useEffect(() => {
+    fetchQuestion();
+  }, []);
 
   return (
-    <div className="section would-you-rather">
-      <h2>Would You Rather</h2>
-      <p>{current.question}</p>
-      <div className="options">
-        <button
-          onClick={() => handleOptionClick(current.optionA)}
-          style={{
-            backgroundColor: selected === current.optionA ? '#d1e7dd' : '',
-          }}
-        >
-          {current.optionA}
-        </button>
-        <button
-          onClick={() => handleOptionClick(current.optionB)}
-          style={{
-            backgroundColor: selected === current.optionB ? '#f8d7da' : '',
-          }}
-        >
-          {current.optionB}
-        </button>
+    <div className="would-you-rather-section">
+      <h2>Would You Rather...</h2>
+      <div className="question-box">
+        {loading ? <p>Loading...</p> : <p>{question}</p>}
       </div>
+      <button onClick={fetchQuestion}>Get Another Question</button>
     </div>
   );
 };
 
 export default WouldYouRather;
+
+
+
